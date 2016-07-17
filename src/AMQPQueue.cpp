@@ -461,7 +461,7 @@ void AMQPQueue::sendConsumeCommand() {
 		if (frame.payload.method.id == AMQP_BASIC_CANCEL_OK_METHOD){
 			//cout << "CANCEL OK method.id="<< frame.payload.method.id << endl;
 			if ( events.find(AMQP_CANCEL) != events.end() ) {
-				(*events[AMQP_CANCEL])(pmessage);
+				events[AMQP_CANCEL](pmessage);
 			}
 			break;
 		}
@@ -524,7 +524,7 @@ void AMQPQueue::sendConsumeCommand() {
 		free(buf);
 
 		if ( events.find(AMQP_MESSAGE) != events.end() ) {
-			int res = (int)(*events[AMQP_MESSAGE])(pmessage);
+			int res = events[AMQP_MESSAGE](pmessage);
 			//cout << "res="<<res<<endl;
 			if (res) break;
 		}
