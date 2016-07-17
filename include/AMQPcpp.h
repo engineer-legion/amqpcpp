@@ -44,6 +44,7 @@
 #include "amqp.h"
 #include "amqp_framing.h"
 
+#include <functional>
 #include <iostream>
 #include <vector>
 #include <map>
@@ -154,9 +155,13 @@ class AMQPBase {
 		void setName(string name);
 };
 
-class AMQPQueue : public AMQPBase  {
+class AMQPQueue : public AMQPBase 
+{
+	public:
+		using CallBackType = std::function<int(AMQPMessage*)>;
+
 	protected:
-		map< AMQPEvents_e, int(*)( AMQPMessage * ) > events;
+		map< AMQPEvents_e, CallBackType  > events;
 		amqp_bytes_t consumer_tag;
 		uint32_t delivery_tag;
 		uint32_t count;
@@ -201,7 +206,7 @@ class AMQPQueue : public AMQPBase  {
 		void setConsumerTag(string consumer_tag);
 		amqp_bytes_t getConsumerTag();
 
-		void addEvent( AMQPEvents_e eventType, int (*event)(AMQPMessage*) );
+		void addEvent( AMQPEvents_e eventType, CallBackType callback);
 
 		virtual ~AMQPQueue();
 		

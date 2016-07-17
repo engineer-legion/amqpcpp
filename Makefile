@@ -1,6 +1,6 @@
 CXX      = g++
 CFLAGS   = -Wall
-CPPFLAGS = $(CFLAGS) -I/usr/local/include -L/usr/local/lib -Iinclude/
+CPPFLAGS = $(CFLAGS) -std=c++1y -I/usr/local/include -L/usr/local/lib -Iinclude/
 
 LIBRARIES= rabbitmq
 LIBS     = $(addprefix -l,$(LIBRARIES))

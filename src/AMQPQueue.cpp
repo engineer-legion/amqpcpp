@@ -362,10 +362,10 @@ void AMQPQueue::sendGetCommand() {
 	amqp_release_buffers(*cnn);
 }
 
-void AMQPQueue::addEvent( AMQPEvents_e eventType, int (*event)(AMQPMessage*)) {
+void AMQPQueue::addEvent( AMQPEvents_e eventType, CallBackType callback) {
 	if (events.find(eventType) != events.end())
 		throw AMQPException("the event alredy added");
-	events[eventType] = reinterpret_cast< int(*)( AMQPMessage * ) > (event);
+	events[eventType] = callback;
 }
 
 void AMQPQueue::Consume() {
